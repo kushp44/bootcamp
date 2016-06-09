@@ -1,26 +1,21 @@
-var url = 'https://pokeapi.co/api/v2/pokemon/?limit=6&offset=20'
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>jPokemon in the afternoon!</title>
+  </head>
+  <body>
+    <h1>jPokemon!</h1>
 
-var template = $('.template')
- .detach()
- .removeClass('template')
+    <ul id="">
+      <li class="template">
+        <span class="mutant-name">
+          <a href="#"></a>
+        </span>
+      </li>
+    </ul>
 
-function loadPokemon(pokemon) {
- $.each(pokemon.results, function(i, pokemon) {
-   addPokemon(pokemon);
- });
-}
-
-function addPokemon(pokemon) {
- var li = template.clone();
- li.find('.pokemon-name a')
-   .text(pokemon.name)
-   .attr('href', pokemon.url)
-
- li.attr('data-id', pokemon.id);
- $('#pokemonList').append(li);
-}
-
-$.get({
- url: url,
- success: loadPokemon
-});
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="get-pokemon.js"></script>
+  </body>
+</html>
