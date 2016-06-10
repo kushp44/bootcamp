@@ -1,17 +1,18 @@
-function generateRandomPokemon(callback) {
- 
- var MAX_POKEMON_ID = 718,
+function generatePokemon(callback) {
+ // "constants"
+ var //MAX_POKEMON_ID = 718,
      BASE_URL = "http://pokeapi.co";
 
  var fetches = [],
      pokemon = {};
 
- function getRandomID() {
-   return 1 + Math.random() * MAX_POKEMON_ID | 0;
- }
+var getNumber = document.getElementById("number").value;
+//var Uno = 1;
+var addOne = parseInt(getNumber) + 1;
 
- function fetchRandom(endpoint, callback) {
-   var url = BASE_URL + "/api/v1/" + endpoint + "/" + getRandomID();
+
+ function fetchNumber(endpoint, callback) {
+   var url = BASE_URL + "/api/v1/" + endpoint + "/" + getNumber;
    return $.ajax({
      type: "GET",
      url: url,
@@ -20,27 +21,37 @@ function generateRandomPokemon(callback) {
    });
  }
 
- // fetch a random name
- fetches.push(fetchRandom('pokemon', function (data) {
+ function fetchNumber_Fix(endpoint, callback) {
+   var url = BASE_URL + "/api/v1/" + endpoint + "/" + addOne;
+   return $.ajax({
+     type: "GET",
+     url: url,
+     dataType: "jsonp",
+     success: callback
+   });
+ }
+
+ // fetch a pokemon name
+ fetches.push(fetchNumber('pokemon', function (data) {
    pokemon.name = data.name;
  }));
 
- // fetch random types
- fetches.push(fetchRandom('pokemon', function (data) {
+ // fetch pokemon types
+ fetches.push(fetchNumber('pokemon', function (data) {
    pokemon.types = data.types.map(function (type) {
      return type.name;
    });
  }));
 
- // fetch random abilities
- fetches.push(fetchRandom('pokemon', function (data) {
+ // fetch pokemon abilities
+ fetches.push(fetchNumber('pokemon', function (data) {
    pokemon.abilities = data.abilities.map(function (type) {
      return type.name;
    });
  }));
 
- // fetch random sprite
- fetches.push(fetchRandom('sprite', function (data) {
+ // fetch pokemon sprite
+ fetches.push(fetchNumber_Fix('sprite', function (data) {
    pokemon.image = BASE_URL + data.image;
  }));
 
@@ -55,18 +66,19 @@ function generateRandomPokemon(callback) {
 }
 
 
-function displayRandomPokemon() {
+
+function displayPokemon() {
  generateButton.prop("disabled", true);
 
- generateRandomPokemon(function (data) {
+ generatePokemon(function (data) {
    generateButton.prop("disabled", false);
 
    if(!data) {
-     alert("Oops"); // an error occurred
+     alert("Oops");
      return;
    }
 
-   // output example
+
    var properties = [];
    properties.push("Name: " + data.name);
    properties.push("Types: " + data.types.join(", "));
@@ -79,7 +91,7 @@ function displayRandomPokemon() {
 
 var generateButton = $("#generate");
 
-generateButton.on("click", displayRandomPokemon);
+generateButton.on("click", displayPokemon);
 
-// run on load
-displayRandomPokemon();
+
+displayPokemon();
